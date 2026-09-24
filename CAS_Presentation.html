@@ -1168,7 +1168,17 @@
   @keyframes sp-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
   .smart-panel.above { border-top: 1px solid var(--border); border-bottom: 3px solid var(--gold); animation-name: sp-in-up; }
   @keyframes sp-in-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-  .sp-head { padding: 12px 16px 10px; border-bottom: 1px solid var(--border-soft); background: var(--bg-soft); }
+    .sp-head { position: relative; padding: 12px 90px 10px 16px; border-bottom: 1px solid var(--border-soft); background: var(--bg-soft); }
+  .sp-close {
+    position: absolute; right: 12px; top: 12px;
+    background: #1e293b; color: #ffffff; border: none; border-radius: 6px;
+    padding: 6px 10px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+    cursor: pointer; display: flex; align-items: center; gap: 4px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15); transition: transform 0.1s, opacity 0.2s;
+  }
+  .sp-close:hover { opacity: 0.9; }
+  .sp-close:active { transform: scale(0.95); }
+  body.dark .sp-close { background: #f8fafc; color: #0f172a; box-shadow: 0 3px 8px rgba(0,0,0,0.5); }
   .sp-understood { font-size: .78rem; color: var(--fg-soft); line-height: 1.45; }
   .sp-understood b { color: var(--navy); font-weight: 700; }
   body.dark .sp-understood b { color: var(--navy-2); }
@@ -7314,6 +7324,8 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
       document.body.appendChild(panel);
       panel.addEventListener("click", function (ev) {
         if (ev.target.closest && (ev.target.closest(".cb-ref") || ev.target.closest(".ref-badge") || ev.target.closest(".pf-label"))) return; /* let the global ref-link / source-popup handler work */
+        var pcls = ev.target.closest(".sp-close");
+        if (pcls) { panel.classList.remove("open"); return; }
         var opt = ev.target.closest(".copt");
         if (opt && state.clar) { toggleOption(opt); return; }
         var go2 = ev.target.closest(".clar-go");
@@ -7502,7 +7514,7 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
       state.res = res; state.filter = "all";
       var counts = { all: res.results.length, q: 0, x: 0, c: 0, g: 0 };
       res.results.forEach(function (e) { counts[e.kind]++; });
-      var head = '<div class="sp-head"><button type="button" class="sp-close" aria-label="Close">✕</button><div class="sp-understood"><b>Smart search</b> \u00b7 ';
+      var head = '<div class="sp-head"><button type="button" class="sp-close" aria-label="Close">&#x2715; Close</button><div class="sp-understood"><b>Smart search</b> \u00b7 ';
       if (res.corrected && res.corrected.length) {
         head += "interpreted <b>" + esc(res.corrected.map(function (c) { return c.to; }).join(" ")) + "</b> (typo corrected)";
       } else {
@@ -7553,7 +7565,7 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
         : "The closest answer I could find in the two Orders:";
       var srcTxt = sourcesOf(best);
       var html =
-        '<div class="sp-head sp-chathead"><button type="button" class="sp-close" aria-label="Close">✕</button>' +
+        '<div class="sp-head sp-chathead"><button type="button" class="sp-close" aria-label="Close">&#x2715; Close</button>' +
           '<div class="chat-ua"><span class="cu">You asked</span>' + esc(chat.query.trim().slice(0, 140)) +
           (chat.corrected ? ' <i>\u2014 interpreted ' + esc(chat.corrected.map(function (c) { return "\u201c" + c.from + "\u201d as \u201c" + c.to + "\u201d"; }).join(", ")) + "</i>" : "") + "</div>" +
           '<div class="chat-bot">' +
@@ -7583,7 +7595,7 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
       state.res = null;
       state.chat = false;
       state.clar = null; state.clarBackup = null; state.locs = null;
-      panel.innerHTML = '<div class="sp-head"><button type="button" class="sp-close" aria-label="Close">✕</button><div class="sp-understood"><b>Ask me anything about CAS promotion</b> \u2014 the AI Guide understands natural questions ("How many years of service do I need for Selection Grade?"), GO terminology ("API", "13A"), synonyms, and even typos, and takes you straight to the exact point in the two Orders.</div></div>' +
+      panel.innerHTML = '<div class="sp-head"><button type="button" class="sp-close" aria-label="Close">&#x2715; Close</button><div class="sp-understood"><b>Ask me anything about CAS promotion</b> \u2014 the AI Guide understands natural questions ("How many years of service do I need for Selection Grade?"), GO terminology ("API", "13A"), synonyms, and even typos, and takes you straight to the exact point in the two Orders.</div></div>' +
         '<div class="sp-suggest"><div class="t">Try asking</div><div class="sp-pop">' +
         POPULAR_Q.map(function (p) { return "<button data-q=\"" + esc(p) + "\">" + esc(p) + "</button>"; }).join("") +
         '</div><div class="t" style="margin-top:8px">\u2026 or search a keyword</div><div class="sp-pop">' +
@@ -9053,7 +9065,7 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
       state.clar = null; state.clarBackup = chat || null; state.clarKw = kwres || null;
       state.locs = null; state.nf = q; state.nfRel = [];
       panel.innerHTML =
-        '<div class="sp-head sp-chathead"><button type="button" class="sp-close" aria-label="Close">✕</button>' +
+        '<div class="sp-head sp-chathead"><button type="button" class="sp-close" aria-label="Close">&#x2715; Close</button>' +
           '<div class="chat-ua"><span class="cu">You asked</span>' + esc(q.slice(0, 140)) + "</div>" +
           '<div class="chat-bot nf-card">' +
             '<div class="cb-name">\u2726 AI Guide \u2014 searching the two Orders for you</div>' +
@@ -9155,7 +9167,7 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
       state.clarOpts = opts; state.clarSel = {}; state.locs = null;
       var inter = chat.inter;
       var html =
-        '<div class="sp-head sp-chathead"><button type="button" class="sp-close" aria-label="Close">✕</button>' +
+        '<div class="sp-head sp-chathead"><button type="button" class="sp-close" aria-label="Close">&#x2715; Close</button>' +
           '<div class="chat-ua"><span class="cu">You asked</span>' + esc(chat.query.trim().slice(0, 140)) +
           (chat.corrected ? ' <i>\u2014 interpreted ' + esc(chat.corrected.map(function (c) { return "\u201c" + c.from + "\u201d as \u201c" + c.to + "\u201d"; }).join(", ")) + "</i>" : "") + "</div>" +
           '<div class="chat-bot">' +
@@ -9287,7 +9299,7 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
       var intro = "Thank you \u2014 your question is now clear. Here " + (picked.length > 1 ? "are the " + picked.length + " exact places you picked" : "is the exact place you picked") + " in the two Orders:";
       if (others.length) intro += " I have also marked " + others.length + " more place" + (others.length > 1 ? "s" : "") + " that may matter to you (dashed boxes).";
       var html =
-        '<div class="sp-head sp-chathead"><button type="button" class="sp-close" aria-label="Close">✕</button>' +
+        '<div class="sp-head sp-chathead"><button type="button" class="sp-close" aria-label="Close">&#x2715; Close</button>' +
           '<div class="chat-ua"><span class="cu">You asked</span>' + esc((chat && chat.query || "").trim().slice(0, 140)) + "</div>" +
           '<div class="chat-bot">' +
             '<div class="cb-name">\u2726 AI Guide \u2014 the exact places in the Orders</div>' +
