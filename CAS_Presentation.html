@@ -103,6 +103,11 @@
     transition: background .25s, color .25s;
   }
 
+  /* ===== Links ===== */
+  a { color: #1d5a96; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  body.dark a { color: var(--navy-3); }
+
   /* ===== Skip link (a11y) ===== */
   .skip-link {
     position: absolute; left: -9999px; top: 0;
@@ -1995,30 +2000,6 @@
   </div>
 </div>
 
-<!-- ==================== GOV BANNER ==================== -->
-<header class="gov-banner" role="banner">
-  <div class="banner-inner">
-    <div class="banner-emblem">
-      <div class="emblem" aria-hidden="true">W.B.</div>
-      <div class="banner-titles">
-        <h1>CAS Promotion — Consolidated Interactive Reference</h1>
-        <p class="sub">Government of West Bengal · Department of Higher Education · <strong>College Sponsored Branch</strong></p>
-      </div>
-    </div>
-    <div class="banner-tags">
-      <span class="banner-tag">Main Order: <b>GO No. 1438-HED-17014(17)/15/2025 CS SEC</b> · dated 17.09.2026</span>
-      <span class="banner-tag">Clarification: <b>GO No. 1439-HED-17014(17)/15/2025 CS SEC</b> · dated 17.09.2026</span>
-      <span class="banner-tag">Effective from <b>01.01.2025</b></span>
-      <span class="banner-tag">Covers: <b>Teachers &amp; College Librarians</b>, Govt-aided Colleges</span>
-      <span class="banner-tag">Compiled by: <b>Dr. Indrajit Chakraborty · Malda College</b></span>
-    </div>
-  </div>
-  <div class="banner-actions">
-    <button class="icon-btn" id="themeToggle" title="Toggle dark / light mode (T)" aria-label="Toggle dark mode">◐</button>
-    <button class="icon-btn" id="printBtn" title="Print / save as PDF (P)" aria-label="Print this page">⎙</button>
-  </div>
-</header>
-
 <!-- ==================== TOOLBAR ==================== -->
 <div class="toolbar">
   <div class="toolbar-inner">
@@ -2045,6 +2026,32 @@
     </div>
   </div>
 </div>
+
+<!-- ==================== GOV BANNER ==================== -->
+<header class="gov-banner" role="banner">
+  <div class="banner-inner">
+    <div class="banner-emblem">
+      <div class="emblem" aria-hidden="true">W.B.</div>
+      <div class="banner-titles">
+        <h1>CAS Promotion — Consolidated Interactive Reference</h1>
+        <p class="sub">Government of West Bengal · Department of Higher Education · <strong>College Sponsored Branch</strong></p>
+      </div>
+    </div>
+    <div class="banner-tags">
+      <span class="banner-tag">Main Order: <b>GO No. 1438-HED-17014(17)/15/2025 CS SEC</b> · dated 17.09.2026</span>
+      <span class="banner-tag">Clarification: <b>GO No. 1439-HED-17014(17)/15/2025 CS SEC</b> · dated 17.09.2026</span>
+      <span class="banner-tag">Effective from <b>01.01.2025</b></span>
+      <span class="banner-tag">Covers: <b>Teachers &amp; College Librarians</b>, Govt-aided Colleges</span>
+      <span class="banner-tag">Compiled by: <b>Dr. Indrajit Chakraborty · Malda College</b></span>
+    </div>
+  </div>
+  <div class="banner-actions">
+    <button class="icon-btn" id="themeToggle" title="Toggle dark / light mode (T)" aria-label="Toggle dark mode">◐</button>
+    <button class="icon-btn" id="printBtn" title="Print / save as PDF (P)" aria-label="Print this page">⎙</button>
+  </div>
+</header>
+
+
 
 <!-- ==================== LAYOUT ==================== -->
 <div class="layout">
@@ -7480,7 +7487,7 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
       state.res = res; state.filter = "all";
       var counts = { all: res.results.length, q: 0, x: 0, c: 0, g: 0 };
       res.results.forEach(function (e) { counts[e.kind]++; });
-      var head = '<div class="sp-head"><div class="sp-understood"><b>Smart search</b> \u00b7 ';
+      var head = '<div class="sp-head"><button type="button" class="sp-close" aria-label="Close">✕</button><div class="sp-understood"><b>Smart search</b> \u00b7 ';
       if (res.corrected && res.corrected.length) {
         head += "interpreted <b>" + esc(res.corrected.map(function (c) { return c.to; }).join(" ")) + "</b> (typo corrected)";
       } else {
@@ -7531,7 +7538,7 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
         : "The closest answer I could find in the two Orders:";
       var srcTxt = sourcesOf(best);
       var html =
-        '<div class="sp-head sp-chathead">' +
+        '<div class="sp-head sp-chathead"><button type="button" class="sp-close" aria-label="Close">✕</button>' +
           '<div class="chat-ua"><span class="cu">You asked</span>' + esc(chat.query.trim().slice(0, 140)) +
           (chat.corrected ? ' <i>\u2014 interpreted ' + esc(chat.corrected.map(function (c) { return "\u201c" + c.from + "\u201d as \u201c" + c.to + "\u201d"; }).join(", ")) + "</i>" : "") + "</div>" +
           '<div class="chat-bot">' +
@@ -7561,7 +7568,7 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
       state.res = null;
       state.chat = false;
       state.clar = null; state.clarBackup = null; state.locs = null;
-      panel.innerHTML = '<div class="sp-head"><div class="sp-understood"><b>Ask me anything about CAS promotion</b> \u2014 the AI Guide understands natural questions ("How many years of service do I need for Selection Grade?"), GO terminology ("API", "13A"), synonyms, and even typos, and takes you straight to the exact point in the two Orders.</div></div>' +
+      panel.innerHTML = '<div class="sp-head"><button type="button" class="sp-close" aria-label="Close">✕</button><div class="sp-understood"><b>Ask me anything about CAS promotion</b> \u2014 the AI Guide understands natural questions ("How many years of service do I need for Selection Grade?"), GO terminology ("API", "13A"), synonyms, and even typos, and takes you straight to the exact point in the two Orders.</div></div>' +
         '<div class="sp-suggest"><div class="t">Try asking</div><div class="sp-pop">' +
         POPULAR_Q.map(function (p) { return "<button data-q=\"" + esc(p) + "\">" + esc(p) + "</button>"; }).join("") +
         '</div><div class="t" style="margin-top:8px">\u2026 or search a keyword</div><div class="sp-pop">' +
@@ -9031,7 +9038,7 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
       state.clar = null; state.clarBackup = chat || null; state.clarKw = kwres || null;
       state.locs = null; state.nf = q; state.nfRel = [];
       panel.innerHTML =
-        '<div class="sp-head sp-chathead">' +
+        '<div class="sp-head sp-chathead"><button type="button" class="sp-close" aria-label="Close">✕</button>' +
           '<div class="chat-ua"><span class="cu">You asked</span>' + esc(q.slice(0, 140)) + "</div>" +
           '<div class="chat-bot nf-card">' +
             '<div class="cb-name">\u2726 AI Guide \u2014 searching the two Orders for you</div>' +
@@ -9133,7 +9140,7 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
       state.clarOpts = opts; state.clarSel = {}; state.locs = null;
       var inter = chat.inter;
       var html =
-        '<div class="sp-head sp-chathead">' +
+        '<div class="sp-head sp-chathead"><button type="button" class="sp-close" aria-label="Close">✕</button>' +
           '<div class="chat-ua"><span class="cu">You asked</span>' + esc(chat.query.trim().slice(0, 140)) +
           (chat.corrected ? ' <i>\u2014 interpreted ' + esc(chat.corrected.map(function (c) { return "\u201c" + c.from + "\u201d as \u201c" + c.to + "\u201d"; }).join(", ")) + "</i>" : "") + "</div>" +
           '<div class="chat-bot">' +
@@ -9265,7 +9272,7 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
       var intro = "Thank you \u2014 your question is now clear. Here " + (picked.length > 1 ? "are the " + picked.length + " exact places you picked" : "is the exact place you picked") + " in the two Orders:";
       if (others.length) intro += " I have also marked " + others.length + " more place" + (others.length > 1 ? "s" : "") + " that may matter to you (dashed boxes).";
       var html =
-        '<div class="sp-head sp-chathead">' +
+        '<div class="sp-head sp-chathead"><button type="button" class="sp-close" aria-label="Close">✕</button>' +
           '<div class="chat-ua"><span class="cu">You asked</span>' + esc((chat && chat.query || "").trim().slice(0, 140)) + "</div>" +
           '<div class="chat-bot">' +
             '<div class="cb-name">\u2726 AI Guide \u2014 the exact places in the Orders</div>' +
