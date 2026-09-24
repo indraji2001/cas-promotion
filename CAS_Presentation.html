@@ -204,6 +204,21 @@
   }
   .search-wrap .s-icon:active { transform: translateY(-50%) scale(.94); }
   .search-wrap .s-icon:focus-visible { outline: 2px solid var(--navy-3); outline-offset: 1px; }
+  .s-arrow {
+    position: absolute; left: 48px; top: 50%; transform: translateY(-50%);
+    background: var(--navy); color: #fff; padding: 4px 10px; border-radius: 6px;
+    font-size: 0.75rem; font-weight: bold; pointer-events: none;
+    opacity: 0; visibility: hidden; transition: 0.2s;
+    display: flex; align-items: center; gap: 4px; z-index: 10;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .s-arrow::before {
+    content: ""; position: absolute; left: -5px; top: 50%; transform: translateY(-50%);
+    border-top: 5px solid transparent; border-bottom: 5px solid transparent;
+    border-right: 5px solid var(--navy);
+  }
+  .s-arrow.show { opacity: 1; visibility: visible; animation: pointLeft 0.6s infinite alternate; }
+  @keyframes pointLeft { from { transform: translate(0, -50%); } to { transform: translate(-4px, -50%); } }
   
   @-webkit-keyframes pulseBlue {
     0% { box-shadow: 0 6px 18px rgba(29,90,150,0.12), 0 0 0 0 rgba(0, 162, 255, 0.4); border-color: var(--navy-2); }
@@ -2040,7 +2055,8 @@
       <button type="button" class="s-icon" id="searchGo" aria-label="Run the question — press to reopen the results window" title="Run the question / reopen the results window">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
       </button>
-      <input type="search" id="searchInput" placeholder="Ask any question in your own words — e.g. 'How many years of service for Selection Grade?' — or type a keyword" aria-label="Search or ask a question about this reference" autocomplete="off" />
+        <div id="searchArrow" class="s-arrow">&#x2B05; Press to get options</div>
+      <input type="search" id="searchInput" placeholder="Write your question and put ? Also You Can Search for Key Words" aria-label="Search or ask a question about this reference" autocomplete="off" />
       <span class="search-kbd">/ to focus</span>
       <button type="button" class="s-ai" id="aiCfgBtn" aria-label="AI settings — connect the free Kimi 2.6 API" title="AI settings — connect the free Kimi 2.6 API"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></button>
     </div>
@@ -6530,18 +6546,27 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
     if (res) SMART.render(res); else SMART.close();
   }
   var debounceT = null;
+    var sArrow = document.getElementById("searchArrow");
   input && input.addEventListener("input", function () {
-    clearTimeout(debounceT);
-    debounceT = setTimeout(runSearch, 180);
-  });
+      if (sArrow) {
+          if (input.value.trim().endsWith("?")) {
+              sArrow.classList.add("show");
+          } else {
+              sArrow.classList.remove("show");
+          }
+      }
+      clearTimeout(debounceT);
+      debounceT = setTimeout(runSearch, 180);
+    });
 
   /* ===== the magnifying glass — a real button now =====
      Pressing it runs whatever is in the search box: the results window
      reopens instantly (also after it was closed with Esc or an outside
      click). With an empty box it focuses the input and shows the
      suggested questions. */
-  var goBtn = $("#searchGo");
+    var goBtn = $("#searchGo");
   goBtn && goBtn.addEventListener("click", function () {
+    if (typeof sArrow !== "undefined" && sArrow) sArrow.classList.remove("show");
     if (!input) return;
     var raw = (input.value || "").trim();
     clearTimeout(debounceT); /* a pending empty-input search must not close the window we are about to open */
