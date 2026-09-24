@@ -184,40 +184,44 @@
     display: flex; align-items: center; gap: 12px;
     padding: 10px 24px;
   }
-  .search-wrap { position: relative; flex: 1; max-width: 560px; }
+  .search-wrap { position: relative; flex: 1; max-width: 600px; }
   .search-wrap .s-icon {
-    position: absolute; left: 6px; top: 50%; transform: translateY(-50%);
-    width: 30px; height: 30px; padding: 0;
+    position: absolute; left: 8px; top: 50%; transform: translateY(-50%);
+    width: 36px; height: 36px; padding: 0;
     display: flex; align-items: center; justify-content: center;
-    background: none; border: 1px solid transparent; border-radius: 7px;
-    color: var(--fg-soft); cursor: pointer; font-family: inherit;
-    transition: color .15s, border-color .15s, background .15s;
+    background: var(--bg-soft); border: 1.5px solid var(--border); border-radius: 10px;
+    color: var(--fg); cursor: pointer; font-family: inherit;
+    transition: color .15s, border-color .15s, background .15s, box-shadow .15s;
   }
-  .search-wrap .s-icon svg { width: 17px; height: 17px; display: block; }
+  .search-wrap .s-icon svg { width: 18px; height: 18px; display: block; }
   .search-wrap .s-icon:hover {
-    color: var(--gold); border-color: var(--amber-line); background: var(--amber-bg);
+    color: var(--navy-3); border-color: var(--navy-3); background: #e3f2fd; box-shadow: 0 2px 8px rgba(29, 90, 150, 0.15);
   }
   .search-wrap .s-icon:active { transform: translateY(-50%) scale(.94); }
-  .search-wrap .s-icon:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .search-wrap .s-icon:focus-visible { outline: 2px solid var(--navy-3); outline-offset: 1px; }
+  
   #searchInput {
     width: 100%;
-    padding: 10px 102px 10px 34px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
+    padding: 16px 120px 16px 54px;
+    border: 2px solid var(--navy-2);
+    border-radius: 12px;
     background: var(--bg);
     color: var(--fg);
-    font-size: .92rem; font-family: inherit;
+    font-size: 1.05rem; font-family: inherit;
+    box-shadow: 0 6px 18px rgba(29,90,150,0.12);
     transition: border-color .2s, box-shadow .2s;
   }
+  #searchInput::placeholder { font-weight: 500; opacity: 0.8; }
   #searchInput:focus {
     outline: none; border-color: var(--navy-3);
-    box-shadow: 0 0 0 3px rgba(29,90,150,.15);
+    box-shadow: 0 0 0 4px rgba(29,90,150,.2);
   }
+  
   .search-kbd {
-    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-    font-size: .68rem; color: var(--fg-soft);
-    border: 1px solid var(--border); border-radius: 4px;
-    padding: 2px 6px; background: var(--bg-soft);
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    font-size: .75rem; font-weight: 600; color: var(--fg);
+    border: 1.5px solid var(--border); border-radius: 6px;
+    padding: 4px 8px; background: var(--bg-card);
   }
   .toolbar-meta {
     margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
@@ -1384,20 +1388,20 @@
 
   /* — Kimi 2.6 gear in the search bar + settings window + not-available card — */
   .search-wrap .s-ai {
-    position: absolute; right: 72px; top: 50%; transform: translateY(-50%);
-    width: 26px; height: 26px; padding: 0;
+    position: absolute; right: 76px; top: 50%; transform: translateY(-50%);
+    width: 32px; height: 32px; padding: 0;
     display: flex; align-items: center; justify-content: center;
-    background: none; border: 1px solid transparent; border-radius: 7px;
+    background: none; border: 1.5px solid transparent; border-radius: 8px;
     color: var(--fg-soft); cursor: pointer; font-family: inherit;
     transition: color .15s, border-color .15s, background .15s;
   }
-  .search-wrap .s-ai svg { width: 15px; height: 15px; display: block; }
-  .search-wrap .s-ai:hover { color: var(--gold); border-color: var(--amber-line); background: var(--amber-bg); }
+  .search-wrap .s-ai svg { width: 17px; height: 17px; display: block; }
+  .search-wrap .s-ai:hover { color: #0f7b4d; border-color: #2fa96e; background: #e8f5e9; }
   .search-wrap .s-ai:active { transform: translateY(-50%) scale(.94); }
-  .search-wrap .s-ai:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
-  .search-wrap .s-ai.on { color: #0f7b4d; }
+  .search-wrap .s-ai:focus-visible { outline: 2px solid #2fa96e; outline-offset: 1px; }
+  .search-wrap .s-ai.on { color: #0f7b4d; border-color: #2fa96e; background: #e8f5e9; }
   .search-wrap .s-ai.on::after {
-    content: ""; position: absolute; top: -2px; right: -2px; width: 8px; height: 8px;
+    content: ""; position: absolute; top: -3px; right: -3px; width: 10px; height: 10px;
     border-radius: 50%; background: #2fa96e; border: 2px solid var(--bg-card);
   }
   .kcfg-wrap {
@@ -1457,7 +1461,7 @@
   .aw-na-s { font-size: .8rem; color: var(--fg); line-height: 1.6; margin-bottom: 4px; }
   @media (max-width: 560px) {
     .search-kbd { display: none; }
-    #searchInput { padding-right: 44px; }
+    #searchInput { padding-right: 65px; }
     .search-wrap .s-ai { right: 10px; }
     .kcfg-wrap { padding: 8px; }
     .kcfg-body { padding: 12px 14px; }
@@ -7837,8 +7841,7 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
             "(2) Very simple and short English sentences (max ~16 words each). The readers are " +
             "teachers, not Englishmen. (3) After each fact, cite the GO and page it comes from, " +
             "in the form (GO 1438-HED, page 7) or (GO 1439-HED, page 2). " +
-            "(4) Structure: first a 2\u20133 sentence direct answer, then \u201cStep by step\u201d with 3\u20136 short " +
-            "numbered lines, then one line \u201cWhat this means for you\u201d. " +
+            "(4) Structure: DO NOT write large paragraphs. Output as a clear point-by-point list. Use bullet points or numbered lists. Use short, simple sentences. " +
             "(5) If the supplied lines do not cover the question, your reply must begin with this exact " +
             "line: Not Available in these GOs \u2014 then add at most one short line naming the nearest topic " +
             "the Orders do cover. (6) No greetings \u2014 answer directly.",
