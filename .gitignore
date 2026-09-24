@@ -6,6 +6,8 @@
 .zcodeignore
 publish.bat
 publish.ps1
+update_github.bat
+*.bat
 __pycache__/
 *.tmp
 .vscode/
