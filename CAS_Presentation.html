@@ -6547,17 +6547,19 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
   }
   var debounceT = null;
     var sArrow = document.getElementById("searchArrow");
-  input && input.addEventListener("input", function () {
-      if (sArrow) {
-          if (input.value.trim().endsWith("?")) {
-              sArrow.classList.add("show");
-          } else {
-              sArrow.classList.remove("show");
-          }
-      }
-      clearTimeout(debounceT);
-      debounceT = setTimeout(runSearch, 180);
-    });
+    var arrowHidden = false;
+    input && input.addEventListener("input", function () {
+        if (sArrow) {
+            if (!input.value.trim().endsWith("?")) {
+                arrowHidden = false;
+                sArrow.classList.remove("show");
+            } else if (!arrowHidden) {
+                sArrow.classList.add("show");
+            }
+        }
+        clearTimeout(debounceT);
+        debounceT = setTimeout(runSearch, 180);
+      });
 
   /* ===== the magnifying glass — a real button now =====
      Pressing it runs whatever is in the search box: the results window
@@ -6565,9 +6567,9 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
      click). With an empty box it focuses the input and shows the
      suggested questions. */
     var goBtn = $("#searchGo");
-  goBtn && goBtn.addEventListener("click", function () {
-    if (typeof sArrow !== "undefined" && sArrow) sArrow.classList.remove("show");
-    if (!input) return;
+    goBtn && goBtn.addEventListener("click", function () {
+      if (typeof sArrow !== "undefined" && sArrow) { sArrow.classList.remove("show"); arrowHidden = true; }
+      if (!input) return;
     var raw = (input.value || "").trim();
     clearTimeout(debounceT); /* a pending empty-input search must not close the window we are about to open */
     if (!raw) { input.focus(); SMART.renderPopular(); return; }
@@ -6576,11 +6578,14 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
   });
   /* Enter re-runs the question even when the results window is closed */
   input && input.addEventListener("keydown", function (ev) {
-    if (ev.key === "Enter" && !SMART.isOpen()) {
-      ev.preventDefault();
-      runSearch();
-    }
-  });
+      if (ev.key === "Enter") {
+        if (typeof sArrow !== "undefined" && sArrow) { sArrow.classList.remove("show"); arrowHidden = true; }
+        if (!SMART.isOpen()) {
+          ev.preventDefault();
+          runSearch();
+        }
+      }
+    });
 
   /* ===== SMART SEARCH ENGINE =====
      AI-style keyword intelligence, fully offline:
