@@ -189,7 +189,7 @@
     display: flex; align-items: center; gap: 12px;
     padding: 10px 24px;
   }
-  .search-wrap { position: relative; flex: 1; max-width: 600px; }
+  .search-wrap { position: relative; flex: 1; min-width: 0; }
   .search-wrap .s-icon {
     position: absolute; left: 8px; top: 50%; transform: translateY(-50%);
     width: 36px; height: 36px; padding: 0;
@@ -259,7 +259,7 @@
     padding: 4px 8px; background: var(--bg-card);
   }
   .toolbar-meta {
-    margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+    margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; flex-shrink: 0;
   }
   .tool-btn {
     background: var(--bg-soft); color: var(--fg);
@@ -2061,8 +2061,6 @@
       <button type="button" class="s-ai" id="aiCfgBtn" aria-label="AI settings — connect the free Kimi 2.6 API" title="AI settings — connect the free Kimi 2.6 API"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></button>
     </div>
     <div class="toolbar-meta">
-      <button class="tool-btn" id="expandAllBtn" title="Open every question">⇕ Expand all</button>
-      <button class="tool-btn" id="modsOnlyBtn" title="Show only clarification points">✎ Clarifications only</button>
       <span id="searchCount" aria-live="polite">Type to search</span>
     </div>
   </div>
@@ -2202,6 +2200,7 @@
   <div class="faq-controls" style="margin:0 0 18px">
     <button class="tool-btn" id="faqExpandAll">⇕ Expand all questions</button>
     <button class="tool-btn" id="faqCollapseAll">⇓ Collapse all</button>
+    <button class="tool-btn" id="modsOnlyBtn" title="Show only clarification points">✎ Clarifications only</button>
     <span class="chip">Can't find your question? Type a keyword — <b>seminar</b>, <b>Ph.D.</b>, <b>leave</b>, <b>arrears</b>… — in the search box above</span>
   </div>
 
