@@ -1152,7 +1152,7 @@
     letter-spacing: .14em;
     text-transform: uppercase;
     font-weight: 800;
-    color: var(--gold);
+    color: #855b00;
     padding: 13px 12px 5px;
     border-top: 1px solid var(--border-soft);
     margin-top: 7px;
@@ -9685,7 +9685,7 @@ window.SCANBOX = {"1438":{"1":[[15,63.88,76.21,85.88,77.92],[14,66.73,74.58,80.7
       h.type = "button";
       h.className = "pf-swipe" + (seen ? " quiet" : "");
       h.innerHTML = "\u2194 Swipe to see the full table";
-      h.setAttribute("aria-label", "Scroll the table sideways");
+      h.setAttribute("aria-label", "Swipe to see the full table");
       h.addEventListener("click", function () {
         w.scrollBy({ left: Math.min(340, w.scrollWidth - w.clientWidth), behavior: "smooth" });
         calm();
